@@ -1,0 +1,19 @@
+#no .o  y no .a files (objetc and libraries)
+*.[oa]
+
+#no dynamic libraries
+*.dll
+
+# no temporal files
+*.~
+
+#no directory of objects
+obj/
+obj/*
+
+#no executables
+*.exe
+
+#no videos
+*.mp4
+*.avi
