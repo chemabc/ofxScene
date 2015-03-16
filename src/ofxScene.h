@@ -1,11 +1,12 @@
 #pragma once
 
 #include "ofMain.h"
-#include "defines_main.h"
+#include "defines_main_basic.h"
 
 
 #ifdef _APPGC_OFXSIMPLEGUITOO
- #include "ofxSimpleGuiToo.h"
+ //#include "ofxSimpleGuiToo.h"
+ #include "ofxEtcGuiControl.h"
 #endif // _APPGC_OFXSIMPLEGUITOO
 
 
@@ -27,7 +28,8 @@ class ofxScene {
 	public:
 	    //Constructor
 	    #ifdef _APPGC_OFXSIMPLEGUITOO
-            ofxScene(ofxSimpleGuiToo *gui, string name ="", eTransitionType transitionType = FADE, float param = 1.0);
+            //ofxScene(ofxSimpleGuiToo *gui, string name ="", eTransitionType transitionType = FADE, float param = 1.0);
+            ofxScene(ofxEtcGuiControl *gui, string name ="", eTransitionType transitionType = FADE, float param = 1.0);
 	    #else
             ofxScene(string name = "", eTransitionType transitionType = FADE, float param = 1.0);
 	    #endif
@@ -85,6 +87,7 @@ class ofxScene {
 		void setColorTextDebug(ofFloatColor c);
 		bool isThisSceneWantsToBeFinished();
 		void setThisSceneWantsTobeFinished(bool b=true);
+		bool isChanging();
 
 
 
@@ -103,7 +106,8 @@ class ofxScene {
         ///         PROTECTED VARIABLES
         ///********************************************
         #ifdef _APPGC_OFXSIMPLEGUITOO
-            ofxSimpleGuiToo *ptr_gui;
+            //ofxSimpleGuiToo *ptr_gui;
+            ofxEtcGuiControl *ptr_gui;
 		#endif // _APPGC_OFXSIMPLEGUITOO
 		bool b_debug;
 		string s_debug;
@@ -118,6 +122,7 @@ class ofxScene {
         int i_fontSize, i_fontSizeDebug;
         //Colors
 		ofFloatColor cf_colorText, cf_colorTextDebug, cf_colorBackground;
+        eState eS_state;
 
 	private:
         ///********************************************
@@ -133,7 +138,7 @@ class ofxScene {
 		int i_ID;
 		string s_sceneName;
 		//State
-		eState eS_state;
+
 		//Listeners
 		bool b_listenersEnabled;
 		//Transition

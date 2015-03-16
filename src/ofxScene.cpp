@@ -9,7 +9,16 @@ int ofxScene::i_numScenes = 0;
 ///         CONSTRUCTOR
 ///********************************************
 #ifdef _APPGC_OFXSIMPLEGUITOO
-    ofxScene::ofxScene(ofxSimpleGuiToo *gui, string name, eTransitionType transitionType, float param ){
+//    ofxScene::ofxScene(ofxSimpleGuiToo *gui, string name, eTransitionType transitionType, float param ){
+//        ofLogVerbose("[ofxScene::ofxScene]");
+//        ptr_gui = gui;
+//        s_sceneName = name;
+//        i_ID = i_numScenes;
+//        eT_transition = transitionType;
+//        f_paramTransition = param;
+//        i_numScenes++;
+//    }
+    ofxScene::ofxScene(ofxEtcGuiControl *gui, string name, eTransitionType transitionType, float param ){
         ofLogVerbose("[ofxScene::ofxScene]");
         ptr_gui = gui;
         s_sceneName = name;
@@ -32,7 +41,9 @@ int ofxScene::i_numScenes = 0;
 ofxScene::~ofxScene(){
     disableListeners();
     f_alphaColor = 0.0;
+    #ifdef _APPGC_OFXSIMPLEGUITOO
     ptr_gui = 0;
+    #endif
     i_numScenes--;
 }
 
@@ -93,7 +104,7 @@ void ofxScene::update(){
 }
 
 void ofxScene::initializeInitScene() { //Only one time per Scene loop
-    cout << "***************** initializeInitScene (" << getSceneName() << ")" << ofToString(ofGetElapsedTimef(),1) << "***********" << endl;
+    ofLogVerbose("***************** initializeInitScene (" + getSceneName() + ")" + ofToString(ofGetElapsedTimef(),1) + "***********" );
     b_firstLoopToEndDone = false;
     b_firstLoopToInitDone = true;
     eS_state = SETUP_DONE;
@@ -127,7 +138,7 @@ void ofxScene::updateScene(){
 
 }
 void ofxScene::initializeEndScene() { //Only one time per Scene loop
-    cout << "***************** initializeEndScene (" << getSceneName() << ")" << ofToString(ofGetElapsedTimef(),1) << "***********" << endl;
+    ofLogVerbose("***************** initializeEndScene (" + getSceneName() + ")" + ofToString(ofGetElapsedTimef(),1) + "***********");
     b_firstLoopToInitDone = false;
     b_firstLoopToEndDone = true;
 
@@ -285,7 +296,7 @@ void ofxScene::nextState(){
             break;
     }
     sNotice += getStringState();
-    cout << sNotice << endl;
+    ofLogVerbose(""+ sNotice);
 }
 void ofxScene::prevState(){
     string sNotice = "[ofxScene::prevState] Scene " +getSceneName() + " from " + getStringState() + " to ";
@@ -310,7 +321,7 @@ void ofxScene::prevState(){
             break;
     }
     sNotice += getStringState();
-    cout << sNotice << endl;
+    ofLogVerbose(""+ sNotice );
 }
 void ofxScene::resetState(){
     eS_state = NO_SETUP_YET;
@@ -405,6 +416,10 @@ void ofxScene::disableDebug(){
 }
 string ofxScene::getStringDebug(){
     return s_debug;
+}
+bool ofxScene::isChanging(){
+    if(eS_state == NORMAL) return false;
+    else return true;
 }
 ///********************************************
 ///         GUI

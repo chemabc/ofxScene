@@ -6,7 +6,8 @@
 
 
 #ifdef _APPGC_OFXSIMPLEGUITOO
- #include "ofxSimpleGuiToo.h"
+ //#include "ofxSimpleGuiToo.h"
+ #include "ofxEtcGuiControl.h"
 #endif // _APPGC_OFXSIMPLEGUITOO
 
 
@@ -14,7 +15,8 @@ class ofxSceneManager {
 
     public:
         #ifdef _APPGC_OFXSIMPLEGUITOO
-            ofxSceneManager(ofxSimpleGuiToo *gui);
+            //ofxSceneManager(ofxSimpleGuiToo *gui);
+            ofxSceneManager(ofxEtcGuiControl *gui);
         #else
             ofxSceneManager();
         #endif
@@ -50,6 +52,8 @@ class ofxSceneManager {
 		bool isDebugEnabled();
 		string getStringDebug();
 
+		bool isSceneChanging();
+
 
 
     private:
@@ -66,7 +70,8 @@ class ofxSceneManager {
 		string s_debug;
 
         #ifdef _APPGC_OFXSIMPLEGUITOO
-            ofxSimpleGuiToo *ptr_gui;
+            //ofxSimpleGuiToo *ptr_gui;
+            ofxEtcGuiControl *ptr_gui;
 		#endif // _APPGC_OFXSIMPLEGUITOO
 
 		//Scene map

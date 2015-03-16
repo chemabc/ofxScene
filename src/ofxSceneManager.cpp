@@ -8,7 +8,12 @@
 ///         CONSTRUCTOR
 ///********************************************
  #ifdef _APPGC_OFXSIMPLEGUITOO
-    ofxSceneManager::ofxSceneManager(ofxSimpleGuiToo *gui){
+//    ofxSceneManager::ofxSceneManager(ofxSimpleGuiToo *gui){
+//        ptr_gui = gui;
+//        i_currentScene = 0;
+//        i_newScene = i_currentScene;
+//    }
+    ofxSceneManager::ofxSceneManager(ofxEtcGuiControl *gui){
         ptr_gui = gui;
         i_currentScene = 0;
         i_newScene = i_currentScene;
@@ -105,7 +110,7 @@ void ofxSceneManager::update(){
                     if(iKeyMap != -1){
                         std::map<int, ofxScene*>::iterator it_next;
                         it_current->second->setThisSceneWantsTobeFinished(false);
-                        cout << "[ofxSceneManager::update] Escena " << it_current->second->getSceneName() << " sin querer morir para la proxima interaccion. "<< ofToString(ofGetElapsedTimef(),1) << endl;
+                        ofLogVerbose( "[ofxSceneManager::update] Escena " + it_current->second->getSceneName() + " sin querer morir para la proxima interaccion. " + ofToString(ofGetElapsedTimef(),1));
                         it_next = map_scenes.find(iKeyMap);
                         if(it_next!=map_scenes.end()){
                             enableScene(iKeyMap);
@@ -170,7 +175,7 @@ void ofxSceneManager::enableScene(int i){
 
     if(bNewCorrect){
             i_newScene = i;
-            cout << "[ofxSceneManager::enableScene] Escena " << i_newScene << " being enabled. "<< ofToString(ofGetElapsedTimef(),1) << endl;
+            ofLogVerbose( "[ofxSceneManager::enableScene] Escena " + ofToString( i_newScene) + " being enabled. " + ofToString(ofGetElapsedTimef(),1));
     }
     else ofLogWarning("[ofxSceneManager::enableScene] Bad index of current scene; new=" + ofToString(i));
 }
@@ -200,6 +205,18 @@ string ofxSceneManager::getStringDebug(){
         s_debug += "\n" + it->second->getStringDebug();
     }
     return s_debug;
+}
+
+bool ofxSceneManager::isSceneChanging(){
+    bool bCurrentCorrect = false;
+    std::map<int, ofxScene*>::iterator it_current;
+    it_current=map_scenes.find(i_currentScene);
+    if(it_current!=map_scenes.end())  bCurrentCorrect = true;
+
+    if(bCurrentCorrect){
+        return it_current->second->isChanging();
+    }
+
 }
 ///********************************************
 ///         LISTENERS
